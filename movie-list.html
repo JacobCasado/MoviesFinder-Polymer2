@@ -1,0 +1,103 @@
+<link rel="import" href="./bower_components/polymer/polymer-element.html">
+
+<dom-module id="movie-list">
+  <template>
+    <style>
+      :host {
+        display: block;
+        overflow-y: scroll;
+      }
+
+      article {
+        border: 2px solid #008CBA;
+        border-radius: 8px;
+        box-shadow: 0 0 10px #186985;
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        font-family: "roboto";
+      }
+
+      img {
+        height: 200px;
+        width: 150px;
+        background-image: url('https://media1.tenor.com/images/d32de27b7f1ff0007cb72d1547d3050b/tenor.gif');
+        background-size: cover;
+        background-repeat: no-repeat;
+        background-position: center center;
+      }
+
+      .movieInfo {
+        flex-direction: column;
+        padding: 15px 0px 0px 35px;
+      }
+
+      span {
+        font-weight: bold;
+        color: #008CBA;
+        font-size: 18px;
+      }
+
+      p {
+        margin: 0;
+        font-size: 16px;
+      }
+
+      .movieslist {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 500px);
+        justify-content: center;
+        grid-gap: 20px;
+        padding-top: 20px;
+      }
+    </style>
+    <div class="movieslist">
+      <template is="dom-repeat" items="{{movies.Search}}" as="movie">
+
+        <article>
+          <img src="[[movie.Poster]]" alt="">
+          <div class="movieInfo">
+            <span>Title:</span>
+            <p>[[movie.Title]]</p>
+            <span>Year:</span>
+            <p>[[movie.Year]]</p>
+            <span>Type:</span>
+            <p>[[movie.Type]]</p>
+          </div>
+
+        </article>
+
+      </template>
+    </div>
+
+  </template>
+
+  <script>
+    class movieList extends Polymer.Element {
+
+      static get is() {
+        return 'movie-list';
+      }
+
+      static get properties() {
+        return {
+          movies: {
+            type: Array,
+          }
+        };
+      }
+
+
+      ready() {
+        super.ready();
+
+        Polymer.RenderStatus.afterNextRender(this, function () {
+
+        });
+      }
+
+    }
+
+    window.customElements.define(movieList.is, movieList);
+  </script>
+</dom-module>

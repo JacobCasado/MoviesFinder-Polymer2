@@ -1,0 +1,141 @@
+<link rel="import" href="/bower_components/polymer/polymer-element.html">
+<link rel="import" href="/bower_components/polymer/lib/elements/dom-repeat.html">
+<link rel="import" href="/node_modules/@polymer/paper-input/">
+<link rel="import" href="/bower_components/paper-button/paper-button.html">
+<link rel="import" href="/bower_components/iron-icons/iron-icons.html">
+
+<dom-module id="item-search">
+	<template>
+		<style>
+			:host {
+        display: block;
+      }
+						
+			.searchBox {
+				display: flex;
+				flex-direction: row;
+				justify-content: center;
+			}
+
+			.searcher {
+    		display: flex;
+    		background-color: rgb(241, 241, 241);
+    		border-radius: 8px;
+    		padding: 10px;
+    		margin: 4px 10px;
+    		flex-direction: row;
+    		justify-content: flex-start;
+    		align-items: center;
+    		width: 500px;
+  		}
+
+			.searchInput {
+    		background-color: rgb(241, 241, 241);
+    		padding-left: 10px;
+				border: 0px solid;
+				width: 350px;
+				height: 30px;
+				outline:none;
+  		}
+
+			.buttonSearch {
+  			background-color: #008CBA;
+  			border: none;
+  			color: white;
+  			padding: 12px 32px;
+  			text-align: center;
+  			text-decoration: none;
+  			display: inline-block;
+  			font-size: 16px;
+  			margin: 4px 2px;
+  			transition-duration: 0.4s;
+  			cursor: pointer;
+				border-radius: 8px;
+			}
+
+			.buttonSearch:hover {
+  			background-color: white;
+  			color: #008CBA;
+				border: 2px solid #008CBA;
+				border-radius: 8px;
+			}
+
+			h1 {
+				font-family: "roboto";
+				color: #008CBA;
+				display: flex;
+				justify-content: center;
+			}
+
+			hr {
+        border: 0;
+        height: 2px;
+        background-image: linear-gradient(to right, rgba(0, 140, 186, 0), rgba(0, 140, 186, 0.75), rgba(0, 140, 186, 0));
+      }
+						
+    </style>
+
+		<h1>Search your movie!!!</h1>
+		<div class="searchBox">
+			<div class="searcher">
+				<iron-icon icon="icons:search"></iron-icon>
+				<input class="searchInput" type="text" placeholder="Find Your Movie" value="{{movie::input}}" on-keydown="enterBttn">
+			</div>
+			<button class="buttonSearch" on-click="searchBtnn">Search it!</button>
+		</div>
+		<hr>
+
+
+
+	</template>
+
+	<script>
+		class itemSearch extends Polymer.Element {
+
+			static get is() {
+				return 'item-search';
+			}
+
+
+			static get properties() {
+				return {
+					movie: {
+						type: Array,
+					}
+
+				};
+			}
+
+
+			ready() {
+				super.ready();
+			}
+
+			enterBttn(event) {
+				if (event.keyCode === 13) {
+					this.searchBtnn();
+					this.cleanInput();
+				}
+			}
+
+			cleanInput() {
+				this.movie = "";
+			}
+
+			searchBtnn() {
+				let event = new CustomEvent('searchMovies', {
+					composed: true,
+					bubbles: true,
+					detail: {
+						newMovie: this.movie
+					}
+				});
+
+				this.dispatchEvent(event);
+			}
+
+		}
+
+		window.customElements.define(itemSearch.is, itemSearch);
+	</script>
+</dom-module>

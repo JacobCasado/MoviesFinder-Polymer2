@@ -1,0 +1,77 @@
+<link rel="import" href="bower_components/polymer/polymer-element.html">
+<link rel="import" href="item-search.html">
+<link rel="import" href="./bower_components/iron-ajax/iron-ajax.html">
+<link rel="import" href="movie-list.html">
+
+
+<dom-module id="app-shell">
+  <template>
+    <style>
+      :host {
+        display: block;
+        height: 100%;
+      }
+
+
+      main {
+        height: 100%;
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: 150px 1fr;
+        grid-template-areas: "searcher""movielist";
+      }
+
+      item-search {
+        grid-area: searcher;
+      }
+
+      movie-list {
+        grid-area: movielist;
+      }
+
+
+    </style>
+
+    <iron-ajax auto url="[[moviesUrl]]" handle-as="json" method="GET" last-response="{{movies}}">
+    </iron-ajax>
+
+    <main>
+      <item-search></item-search>
+      <movie-list movies="{{movies}}"></movie-list>
+    </main>
+
+  </template>
+
+  <script>
+    class appShell extends Polymer.Element {
+
+      static get is() {
+        return 'app-shell';
+      }
+
+
+      static get properties() {
+        return {
+          movies: {
+            type: Array,
+          },
+          moviesUrl: String
+
+        };
+      }
+
+      ready() {
+        super.ready();
+        this.addEventListener('searchMovies', this._doSearch.bind(this));
+      }
+
+      _doSearch() {
+        let movie = event.detail.newMovie;
+        this.moviesUrl = `https://www.omdbapi.com/?s=${movie}&plot=full&apikey=e477ed6a`;
+      }
+
+    }
+
+    window.customElements.define(appShell.is, appShell);
+  </script>
+</dom-module>

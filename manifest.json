@@ -1,0 +1,7 @@
+{
+  "name": "PolymerFilms",
+  "short_name": "PolymerFilms",
+  "description": "Database of films",
+  "start_url": "/",
+  "display": "standalone"
+}
